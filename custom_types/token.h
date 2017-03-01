@@ -1,12 +1,15 @@
 // Enum for all tokens
-// Non_terminals are indexed from 0
+// Non_terminals are indexed from 500
 // Terminals are indexed from 1000
+
+#ifndef TOKEN
+#define TOKEN
 
 // The non_terminal for default is named default_nt to prevent name conflict
 
 typedef enum {
     // non_terminals
-	AnyTerm,
+	AnyTerm = 500,
 	Goal,
 	N1,
 	N2,
@@ -118,3 +121,5 @@ typedef enum {
     EPSILON,
 	eof
 } token;
+
+#endif

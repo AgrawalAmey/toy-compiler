@@ -1,4 +1,6 @@
 // Definations of all structs
+#ifndef STRUCTS
+#define STRUCTS
 
 // For token coined by laxer
 typedef struct{
@@ -24,7 +26,30 @@ typedef struct{
 } non_terminal;
 
 // A bit of hack: the array of non_terminals will be indexed by enum Token
-typedef non_terminal non_terminals[50]; 
+typedef non_terminal non_terminals[50];
 
 // Parse table
-typedef token parse_table[100][100];
+typedef token parse_table[50][50][20];
+
+// Stack
+typedef struct stackNode {
+	token data;
+	struct stackNode* next;
+} stackNode;
+
+typedef struct {
+	stackNode** front;
+	stackNode** rear;
+} stack;
+
+// Tree
+typedef struct tree_node {
+    Token data;
+    int associated;
+    struct tree_node * children[10];
+    struct tree_node * parent;
+} treeNode;
+
+typedef treeNode ** tree;
+
+#endif

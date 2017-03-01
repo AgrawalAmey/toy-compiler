@@ -1,6 +1,6 @@
 program moduleDeclarations otherModules driverModule otherModules
 moduleDeclarations moduleDeclaration moduleDeclarations
-moduleDeclarationse
+moduleDeclarations EPSILON
 moduleDeclaration DECLARE MODULE ID SEMICOL
 otherModules module otherModules
 otherModules EPSILON
@@ -11,7 +11,7 @@ ret EPSILON
 input_plist ID COLON dataType N1
 N1 COMMA ID COLON dataType N1
 N1 EPSILON
-output_plistID COLON type N2
+output_plist ID COLON type N2
 N2 COMMA ID COLON type N2
 N2 EPSILON
 dataType INTEGER
@@ -48,18 +48,18 @@ index ID
 moduleReuseStmt optional USE MODULE ID WITH PARAMETERS idList SEMICOL
 optional SQBO idList SQBC ASSIGNOP
 optional EPSILON
-idListID N3
+idList ID N3
 N3 COMMA ID N3
 N3 EPSILON
-expressionarithmeticOrBooleanExpr
-expressionMINUS BO arithmeticExpr BC
-arithmeticOrBooleanExprAnyTerm N7
+expression arithmeticOrBooleanExpr
+expression MINUS BO arithmeticExpr BC
+arithmeticOrBooleanExpr AnyTerm N7
 N7 logicalOp AnyTerm N7
 N7 EPSILON
-AnyTermarithmeticExpr N8
+AnyTerm arithmeticExpr N8
 N8 relationalOp arithmeticExpr N8
 N8 EPSILON
-arithmeticOrBooleanExprBO arithmeticOrBooleanExpr BC
+arithmeticOrBooleanExpr BO arithmeticOrBooleanExpr BC
 arithmeticExpr term N4
 N4 op1 term N4
 N4 EPSILON
@@ -67,10 +67,10 @@ term factor N5
 N5 op2 factor N5
 N5 EPSILON
 factor var
-op1PLUS
-op1MINUS
-op2MUL
-op2DIV
+op1 PLUS
+op1 MINUS
+op2 MUL
+op2 DIV
 logicalOp AND
 logicalOp OR
 relationalOp LT

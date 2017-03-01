@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../custom_types/token.h"
+#include "../custom_types/structs.h"
 #include "../headers/utils.h"
 
 // Kind of look-up table to convert string to corrosponding enum
@@ -128,5 +129,15 @@ token string_to_token(const char *str){
          if (!strcmp (str, conversions[i].str))
              return conversions[i].val;
      }
-     printf("Invalid token string.\n");
+     printf("Invalid token string: %s.\n", str);
+}
+
+// Returns string from token enum
+const char * token_to_string(token tok){
+     int i;
+     for (i = 0;  i < sizeof (conversions) / sizeof (conversions[0]);  i++){
+         if (tok == conversions[i].val)
+             return conversions[i].str;
+     }
+     printf("Invalid token string: %d.\n", tok);
 }
