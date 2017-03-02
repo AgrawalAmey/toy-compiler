@@ -142,7 +142,7 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 			else
 			{
 				//printf("hi\n");
-				memset(buffer,'$',sizeof(buffer));//end should be a $
+				memset(buffer,'\0',sizeof(buffer));//end should be a $
 				int len=strlen(buffer);
 
 				fp=getStream(fp,buffer,size);
