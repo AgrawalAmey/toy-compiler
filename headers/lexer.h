@@ -14,6 +14,8 @@ Token createToken(char * lex,int l,Token tok);
 
 FILE* getStream(FILE *fp,char *buffer,int size);
 
+char * fetch_or_not(FILE* fp,char * buffer,int flag,int size);
+
 Token getNextToken(FILE* fp,char* buffer,int size);
 
 void removeComments(char *testcaseFile,char *cleanFile);
