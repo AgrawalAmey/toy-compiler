@@ -26,10 +26,10 @@ typedef struct{
 } non_terminal;
 
 // A bit of hack: the array of non_terminals will be indexed by enum Token
-typedef non_terminal non_terminals[50];
+typedef non_terminal non_terminals[100];
 
 // Parse table
-typedef token parse_table[50][50][20];
+typedef token parse_table[100][100][20];
 
 // Stack
 typedef struct stackNode {

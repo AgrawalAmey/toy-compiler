@@ -18,7 +18,7 @@ void findFirstAndFollow(grammer g, non_terminals nt);
 int findFirst(token tok, token *rhs, non_terminals nt, int index);
 
 // Find follow (to be called by findFirstAndFollow)
-int findFollow(token tok, token lhs, token *rhs, non_terminals nt, int index, int hasEpsilonLast);
+int findFollow(token tok, token lhs, token *rhs, non_terminals nt, int index);
 
 // Makes parse table
 void creatParseTable(char * grammerFile, char * firstFile, char * followFile, parse_table pt);

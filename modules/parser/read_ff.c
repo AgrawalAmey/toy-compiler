@@ -8,7 +8,7 @@
 
 void readFirstAndFollow(const char *first_file, const char *follow_file, non_terminals nt){
 
-    int i;
+    int i, j;
 
     FILE *first_fp = fopen(first_file, "rt");
     if (first_fp == NULL)
@@ -26,6 +26,14 @@ void readFirstAndFollow(const char *first_file, const char *follow_file, non_ter
     int word_num = 0;
 
     token name;
+
+    // Initialize everything with zeros
+    for (i = 0; i < 100; i++) {
+        for (j = 0; j < 20; j++) {
+            nt[i].first[j] = 0;
+            nt[i].follow[j] = 0;
+        }
+    }
 
     while (fscanf(first_fp, "%s%c", buffer, &ch) == 2){
 

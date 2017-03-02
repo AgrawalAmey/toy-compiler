@@ -10,7 +10,6 @@
 typedef enum {
     // non_terminals
 	AnyTerm = 500,
-	Goal,
 	N1,
 	N2,
 	N3,

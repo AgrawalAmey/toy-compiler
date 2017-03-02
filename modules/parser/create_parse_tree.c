@@ -56,18 +56,3 @@ void creatParseTree(parse_table pt, tree t, Token *input){
         }
     }
 }
-
-
-void main(){
-    parse_table pt;
-    tree t;
-    t = createTree();
-
-    Token * input;
-
-    creatParseTable("../../lang/grammer.txt", "../../lang/first.txt", "../../lang/follow.txt", pt);
-
-    creatParseTree(pt, t, input);
-
-    printInorder(t);
-}

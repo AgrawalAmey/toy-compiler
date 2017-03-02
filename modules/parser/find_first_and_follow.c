@@ -8,11 +8,21 @@
 
 void findFirstAndFollow(grammer g, non_terminals nt){
     int i, j, k = 0;
-    int first_indexs[100], follow_indexs = { 0 };
+    int first_indexs[100] = { 0 };
+    int follow_indexs[100] = { 0 };
     int total = 0;
     int last_index, last_total;
-    int isLast = 0;
     token tok;
+
+    // Initialize everything with zeros
+    for (i = 0; i < 100; i++) {
+        for (j = 0; j < 20; j++) {
+            nt[i].first[j] = 0;
+            nt[i].follow[j] = 0;
+        }
+    }
+
+    i = j = k = 0;
 
     // For first
     do{
@@ -50,21 +60,23 @@ void findFirstAndFollow(grammer g, non_terminals nt){
             // For all rules
             while(g[j].lhs != 0){
                 k = 0;
-                isLast = 0;
+
                 // Count before the itration
                 last_index = follow_indexs[tok-500];
+
                 // Find the position of rhs
-                while(rhs[k] != tok && rhs[k] != 0) {
+                while(g[j].rhs[k] != 0) {
+                    if(g[j].rhs[k] == tok){
+                        // Add new terms
+                        follow_indexs[tok-500] = findFollow(tok, g[j].lhs, g[j].rhs+k+1, nt, follow_indexs[tok-500]);
+                        // Add the difference to total
+                        total = total + follow_indexs[tok-500] - last_index;
+
+                        break;
+                    }
                     k++;
                 }
-                if(rhs[k] == tok && rhs[k+1] == 0){
-                    isLast = 1;
-                }
 
-                // Add new terms
-                follow_indexs[tok-500] = findFirstRecursive(tok, g[i].lhs, g[i].rhs+k, nt, follow_indexs[tok-500], isLast);
-                // Add the difference to total
-                total = total + follow_indexs[tok-500] - last_index;
                 j++;
             }
             i++;

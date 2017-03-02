@@ -8,7 +8,7 @@
 
 void readGrammer(const char *filename, grammer g){
 
-    int i;
+    int i, j;
     FILE *f = fopen(filename, "rt");
     if (f == NULL)
         printf("File does not exist.\n");
@@ -19,6 +19,14 @@ void readGrammer(const char *filename, grammer g){
 
     int row_num = 0;
     int word_num = 0;
+
+    // Initialize everything with zeros
+    for (i = 0; i < 100; i++) {
+        g[i].lhs = 0;
+        for (j = 0; j < 20; j++) {
+            g[i].rhs[j] = 0;
+        }
+    }
 
     while (fscanf(f, "%s%c", buffer, &ch) == 2){
 
