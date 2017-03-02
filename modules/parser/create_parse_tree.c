@@ -23,6 +23,7 @@ void creatParseTree(parse_table pt, tree t, Token *input){
 
     while(isStackEmpty(s) != 1){
         tok = pop(s);
+
         // Index of terminals start from 1000
         if (tok >= 1000){
             if(tok == input[readHead].name){
@@ -65,5 +66,8 @@ void main(){
     Token * input;
 
     creatParseTable("../../lang/grammer.txt", "../../lang/first.txt", "../../lang/follow.txt", pt);
+
     creatParseTree(pt, t, input);
+
+    printInorder(t);
 }

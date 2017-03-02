@@ -26,7 +26,7 @@ void creatParseTable(char * grammerFile, char * firstFile, char * followFile, pa
         }
 
         // Get the first set for rhs
-        findFirst(g[i].rhs, nt, first, 0);
+        findFirstRecursive(g[i].rhs, nt, first, 0);
 
         // The three cases
 
