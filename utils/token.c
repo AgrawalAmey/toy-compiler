@@ -139,5 +139,5 @@ const char * token_to_string(token tok){
          if (tok == conversions[i].val)
              return conversions[i].str;
      }
-     printf("Invalid token string: %d.\n", tok);
+     printf("Invalid token: %d.\n", tok);
 }

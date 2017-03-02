@@ -1,67 +1,16 @@
-#include "lexerDef.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include "utils.h"
 #include <math.h>
-
-
-//small functions definition:Start
-
-
-int isSpace(char ch)
-{
-	if(ch=='\t'||ch==' '||ch=='\r')
-		return 1;
-	else 
-		return 0;
-}
-
-int isNewLine(char ch)
-{
-	return ch=='\n'?1:0;
-}
-
-int isAlphabet(char ch)
-{
-	return ((ch>=65&& ch<=90)||(ch>=97&& ch<=122))?1:0;
-}
-
-int isDigit(char ch)
-{
-	return ((ch>=48&& ch<=57))?1:0;
-
-
-}
-
-tokenInfo getToken(char * lex,int l,tokenInfo tok)
-{
-	//we shall use strcmpi for insensitive case string comparison
-	tok.line_number=l;
-	tok.name=ID;
-	tok.string=lex;
-
-	int i=0;//30-number of keywords
-	for(i=0;i<30;i++)
-	{
-		if(strcmpi(lex,convert[i].str)==0 )
-			{
-				tok.name=convert[i].val;
-				return tok;
-			}
-	}
-	return tok;
-}
-
-
-
-
-
+#include "../../custom_types/token.h"
+#include "../../custom_types/structs.h"
+#include "../../headers/utils.h"
+#include "../../headers/lexer.h"
 
 //small functions definition:End
 
 int commentflag=0;
-tokenInfo tokenArray[1000];
+Token tokenArray[1000];
 int tok_i;//ith token is added to the array
 
 
@@ -71,37 +20,36 @@ int offset,state=1,line_number,lh1=1,lh2=2;//lh1 and lh2 are lookaheads
 //size=size of buffer
 
 
-
-
-
-
-
-
-
-
-//buffer is assumed to already have heap allocation of memory before 
-//calling getStream() or getNextToken()
-FILE* getStream(FILE *fp,char *buffer,int size)
+//Token same as Token
+Token* getTokens(const char* filename,Token* tokenArray)
 {
-	//size should be typically 200
-	//as of now assumption is that a line doesnt exceed 200 limit
+	FILE* fp;
+	fp=fopen(filename,"r");
+	char * buffer=(char *)malloc(10000*sizeof(char));
+	int i=0;
+	for(i=0;i<10000;i++)
+		buffer[i]='\0';
+	fp=getStream(fp,buffer,10000);
 
 
-	count++;
-	fread(buffer,1,size,fp);//provide buffer's size=size+3 
-	//as 3 extra chars read for 3 lookaheads
+	for(i=0;i<10000;i++)
+	{
+		tokenArray[i]=getNextToken(fp,buffer,50);
+		if(tokenArray[i].name==eof)//eof encountered
+		{
+			break;
+		}
+		//printf("%s  %d\n",tokenArray[i].string,tokenArray[i].name );
 
-	//printf("%s\n",buffer );
-	buffer[size-1]='\0';//marking end of input read(size of buffer must be buffersize+1)
-	return fp;
-
+	}
+	return tokenArray;
 }
 
-tokenInfo getNextToken(FILE* fp,char* buffer,int size)
+Token getNextToken(FILE* fp,char* buffer,int size)
 {
 	//actual size of buffer read is size+3
 	state=1;
-	tokenInfo tok;
+	Token tok;
 	tok.string=(char *)malloc(20*sizeof(char));
 	char *lex=(char *)malloc(20*sizeof(char));
 
@@ -121,7 +69,7 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 	}//initialize tok.string to \0 to maintain.
 	int lex_i=0;//stores current position in lexeme read
 	//char lookahead[3];
-	
+
 	int flag=0;//hack for last 3 symbols of the file
 
 	while(1)
@@ -174,7 +122,7 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 				{
 					lex[lex_i++]=buffer[offset++];
 					state=44;
-				}	
+				}
 				else if(isDigit(buffer[offset]))
 				{
 					state=34;
@@ -305,7 +253,7 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 					//break;
 					//while(1){}
 				}
-				
+
 			break;
 
 
@@ -335,14 +283,14 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 									line_number++;
 								offset++;
 							}
-							
+
 
 							return tok;
 						}
 
-					
 
-					
+
+
 
 
 				}
@@ -352,7 +300,7 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 					tok.name=MUL;
 					tok.line_number=line_number;
 					tok.string="MUL";
-					
+
 					return tok;
 				}
 				break;//case 4 ends
@@ -394,7 +342,7 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 
 					if(buffer[offset]=='<')
 					{
-						
+
 						lex[lex_i++]=buffer[offset++];
 						tok.name=DRIVERDEF;
 						tok.string="DRIVERDEF";
@@ -503,7 +451,7 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 					while(isDigit(buffer[offset]))
 					{
 						state=34;
-						lex[lex_i++]=buffer[offset++];						
+						lex[lex_i++]=buffer[offset++];
 					}
 					if(buffer[offset]=='.')
 					{
@@ -528,7 +476,7 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 							while(isDigit(buffer[offset])&&offset<size)
 							{
 								state=37;
-								lex[lex_i++]=buffer[offset++];						
+								lex[lex_i++]=buffer[offset++];
 							}
 							if(buffer[offset]=='E'||buffer[offset]=='e')
 							{
@@ -541,7 +489,7 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 									while(isDigit(buffer[offset])&&offset<size)
 									{
 										state=40;
-										lex[lex_i++]=buffer[offset++];						
+										lex[lex_i++]=buffer[offset++];
 									}
 									tok.name=RNUM;
 									tok.line_number=line_number;
@@ -560,7 +508,7 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 										while(isDigit(buffer[offset])&&offset<size)
 										{
 											state=40;
-											lex[lex_i++]=buffer[offset++];						
+											lex[lex_i++]=buffer[offset++];
 										}
 										tok.name=RNUM;
 										tok.line_number=line_number;
@@ -612,12 +560,12 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 					while((isAlphabet(buffer[offset])||buffer[offset]=='_'||isDigit(buffer[offset])) && offset<size)
 						{
 							state=44;
-							lex[lex_i++]=buffer[offset++];						
+							lex[lex_i++]=buffer[offset++];
 						}
 
 
-					tok=getToken(lex,line_number,tok);
-					
+					tok=createToken(lex,line_number,tok);
+
 					//tok.string=lex;
 					if(tok.name==ID && strlen(lex)>8)
 					{
@@ -644,7 +592,7 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 			default:
 					{
 						printf("Error\n");
-						
+
 					}
 
 
@@ -654,7 +602,7 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 	}
 
 
-	
+
 
 
 
@@ -666,99 +614,3 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 	//printf("%s\n",lex );
 
 }
-
-void removeComments(char *testcaseFile,char *cleanFile)
-{
-	int len=strlen(testcaseFile);
-	int i=0,j=0;
-	while(testcaseFile[i]!='\0')
-	{
-		if(testcaseFile[i]=='*' && testcaseFile[i+1]=='*')
-		{
-			i+=2;
-			while(i<len-1 && !(testcaseFile[i]=='*' && testcaseFile[i+1]=='*'))
-			{
-				i++;
-			}
-			i+=2;
-		}
-		else
-		{
-			cleanFile[j]=testcaseFile[i];
-			cleanFile[j+1]='\0';
-			j++;
-			i++;
-		}
-	}
-}
-
-
-//tokenInfo same as Token
-tokenInfo* getTokens(const char* filename,tokenInfo* tokenArray)
-{
-	FILE* fp;
-	fp=fopen(filename,"r");
-	char * buffer=(char *)malloc(10000*sizeof(char));
-	int i=0;
-	for(i=0;i<10000;i++)
-		buffer[i]='\0';
-	fp=getStream(fp,buffer,10000);
-
-
-	for(i=0;i<10000;i++)
-	{
-		tokenArray[i]=getNextToken(fp,buffer,50);
-		if(tokenArray[i].name==eof)//eof encountered
-		{
-			break;
-		}
-		//printf("%s  %d\n",tokenArray[i].string,tokenArray[i].name );
-
-	}
-	return tokenArray;
-
-
-
-} 
-
-/*
-
-
-int main()
-{	
-	char str[30]="he ** is m**a ** abcdef ** pr";
-	char output[30];
-	removeComments(str,output);
-	printf("%s\n",output );
-
-
-	FILE* fp;
-	fp=fopen("testcase3.txt","r");
-	char * buffer=(char *)malloc(800*sizeof(char));
-	int i=0;
-	for(i=0;i<800;i++)
-		buffer[i]='\0';
-	fp=getStream(fp,buffer,800);
-
- 
- 	//while(1){}
-
-
-
-
-	i=0;
-	for(i=0;i<1000;i++)
-	{
-		tokenArray[i]=getNextToken(fp,buffer,800);
-		if(tokenArray[i].name==eof)//eof encountered
-		{
-			break;
-		}
-		printf("%s  %d\n",tokenArray[i].string,tokenArray[i].name );
-
-	}
-
-	return 0;
-}
-
-*/

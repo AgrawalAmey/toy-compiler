@@ -1,4 +1,4 @@
-// Definations for all util functions
+// Definations for all parser functions
 #ifndef PARSER
 #define PARSER
 

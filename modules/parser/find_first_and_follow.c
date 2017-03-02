@@ -35,6 +35,10 @@ void findFirstAndFollow(grammer g, non_terminals nt){
     // Reset variable
     total = last_total = 0;
 
+    // Add eof
+    nt[program-500].follow[0] = eof;
+    follow_indexs[program-500]++;
+
     // For follow
     do{
         i = 0;
