@@ -97,7 +97,8 @@ void printInorder(treeNode **tree){
         // If is a terminal or leaf in other words
         if((**tree).data.name >= 1000){
             printf("%s %d %s %s yes %s %s\n", (**tree).data.string, (**tree).data.line_number,
-                token_to_string((**tree).data.name), (**tree).data.string, token_to_string((*(**tree).parent).data.name), token_to_string((**tree).data.name));
+                token_to_string((**tree).data.name), (**tree).data.string,
+                token_to_string((*(**tree).parent).data.name), token_to_string((**tree).data.name));
         } else {
             printf("--- --- --- --- no %s %s\n", token_to_string((*(**tree).parent).data.name), token_to_string((**tree).data.name));
         }
