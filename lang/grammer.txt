@@ -27,7 +27,7 @@ statements EPSILON
 statement ioStmt
 statement simpleStmt
 statement declareStmt
-statement condionalStmt
+statement conditionalStmt
 statement iterativeStmt
 ioStmt GET_VALUE BO ID BC SEMICOL
 ioStmt PRINT BO var BC SEMICOL
@@ -59,7 +59,6 @@ N7 EPSILON
 AnyTerm arithmeticExpr N8
 N8 relationalOp arithmeticExpr N8
 N8 EPSILON
-arithmeticOrBooleanExpr BO arithmeticOrBooleanExpr BC
 arithmeticExpr term N4
 N4 op1 term N4
 N4 EPSILON
@@ -67,6 +66,7 @@ term factor N5
 N5 op2 factor N5
 N5 EPSILON
 factor var
+factor BO arithmeticOrBooleanExpr BC
 op1 PLUS
 op1 MINUS
 op2 MUL
@@ -80,7 +80,7 @@ relationalOp GE
 relationalOp EQ
 relationalOp NE
 declareStmt DECLARE idList COLON dataType SEMICOL
-condionalStmt SWITCH BO ID BC START caseStmts default END
+conditionalStmt SWITCH BO ID BC START caseStmts default END
 caseStmts CASE value COLON statements BREAK SEMICOL N9
 N9 CASE value COLON statements BREAK SEMICOL N9
 N9 EPSILON

@@ -23,7 +23,7 @@ const static struct {
     { arithmeticOrBooleanExpr, "arithmeticOrBooleanExpr" },
     { assignmentStmt, "assignmentStmt" },
     { caseStmts, "caseStmts" },
-    { condionalStmt, "condionalStmt" },
+    { conditionalStmt, "conditionalStmt" },
     { dataType, "dataType" },
     { declareStmt, "declareStmt" },
     { default_nt, "default" },

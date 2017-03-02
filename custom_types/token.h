@@ -22,7 +22,7 @@ typedef enum {
 	arithmeticOrBooleanExpr,
 	assignmentStmt,
 	caseStmts,
-	condionalStmt,
+	conditionalStmt,
 	dataType,
 	declareStmt,
 	default_nt,
