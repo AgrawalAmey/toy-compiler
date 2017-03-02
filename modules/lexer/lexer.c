@@ -44,7 +44,7 @@ tokenInfo getToken(char * lex,int l,tokenInfo tok)
 	int i=0;//30-number of keywords
 	for(i=0;i<30;i++)
 	{
-		if(strcmpi(lex,convert[i].str)==0)
+		if(strcmpi(lex,convert[i].str)==0 )
 			{
 				tok.name=convert[i].val;
 				return tok;
@@ -83,12 +83,13 @@ FILE* getStream(FILE *fp,char *buffer,int size)
 	//size should be typically 200
 	//as of now assumption is that a line doesnt exceed 200 limit
 
+
 	count++;
 	fread(buffer,1,size,fp);//provide buffer's size=size+3 
 	//as 3 extra chars read for 3 lookaheads
 
-	printf("%s\n",buffer );
-	buffer[size]='\0';//marking end of input read(size of buffer must be buffersize+1)
+	//printf("%s\n",buffer );
+	buffer[size-1]='\0';//marking end of input read(size of buffer must be buffersize+1)
 	return fp;
 
 }
@@ -122,6 +123,7 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 
 	while(1)
 	{
+		//printf("Hello\n");
 		//for 2 lookaheads
 		if((flag==0)&&(offset==size||buffer[offset]=='\0'||strlen(buffer)==0 ))
 		{
@@ -386,7 +388,7 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 						
 						lex[lex_i++]=buffer[offset++];
 						tok.name=DRIVERDEF;
-						tok.string=lex;
+						tok.string="DRIVERDEF";
 						tok.line_number=line_number;
 						return tok;
 					}
@@ -568,6 +570,13 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 							}
 						}
 					}
+					else
+					{
+						tok.name=NUM;
+						tok.line_number=line_number;
+						tok.string=lex;
+						return tok;
+					}
 
 					break;
 
@@ -601,7 +610,21 @@ tokenInfo getNextToken(FILE* fp,char* buffer,int size)
 					tok=getToken(lex,line_number,tok);
 					
 					//tok.string=lex;
-					return tok;
+					if(tok.name==ID && strlen(lex)>8)
+					{
+						state=50;//error 1
+					}
+					else
+						return tok;
+
+
+					break;
+
+
+			case 50://error 1
+					printf("******ID error(length>8 found) at line %d******\n",line_number );
+					state=1;
+					break;
 
 			default:
 					{
@@ -662,12 +685,13 @@ int main()
 
 
 	FILE* fp;
-	fp=fopen("testcase1.txt","r");
-	char * buffer=(char *)malloc(20*sizeof(char));
+	fp=fopen("testcase2.txt","r");
+	char * buffer=(char *)malloc(800*sizeof(char));
 	int i=0;
-	for(i=0;i<20;i++)
+	for(i=0;i<800;i++)
 		buffer[i]='\0';
-	fp=getStream(fp,buffer,20);
+	fp=getStream(fp,buffer,800);
+
  
  	//while(1){}
 
@@ -675,9 +699,9 @@ int main()
 
 
 	i=0;
-	for(i=0;i<100;i++)
+	for(i=0;i<1000;i++)
 	{
-		tokenArray[i]=getNextToken(fp,buffer,20);
+		tokenArray[i]=getNextToken(fp,buffer,800);
 		if(tokenArray[i].name==eof)//eof encountered
 		{
 			break;
