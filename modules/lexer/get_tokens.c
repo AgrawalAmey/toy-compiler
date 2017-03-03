@@ -234,8 +234,8 @@ int getTokens(const char* filename, Token* tokenArray){
 					else
 					{
 						state=52;
-						
-						
+
+
 					}
 
 					break;
@@ -317,6 +317,7 @@ int getTokens(const char* filename, Token* tokenArray){
 							lex_i = 0;
 							state = 1;
 						}
+						break;
 
 				case 18:
 					//case 18 done('>>' consumed and lookahead=buffer[offset])
@@ -598,16 +599,13 @@ int getTokens(const char* filename, Token* tokenArray){
 					printf("Error_3:Unknown Pattern on line %d.Lexeme so far:%s\n",line_number ,lex);
 					state=1;
 					errorflag=1;
-					
+
 					break;
 
 				default:
-					
+
 					printf("Error\n");
 					offset++;
-					
-
-				
 
 		}
 

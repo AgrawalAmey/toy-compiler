@@ -10,7 +10,7 @@ void main(){
     int i, j = 0;
 
     grammer g;
-    readGrammer("../../lang/grammer.txt", g);
+    readGrammer("../../../lang/grammer.txt", g);
 
     while(g[i].lhs != 0) {
         j = 0;

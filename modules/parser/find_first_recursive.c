@@ -15,7 +15,7 @@ int findFirstRecursive(token *rhs, non_terminals nt, token *first, int index){
     if (rhs[0] == 0){
         return index;
     }
-    
+
     // Index of terminals start from 1000
     // Terminal Case
     if (rhs[0] >= 1000){

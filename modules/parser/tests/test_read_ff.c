@@ -10,7 +10,7 @@ void main(){
     int i, j = 0;
 
     non_terminals nt;
-    readFirstAndFollow("../../lang/first.txt", "../../lang/follow.txt", nt);
+    readFirstAndFollow("../../../lang/first.txt", "../../../lang/follow.txt", nt);
 
     for(i=0; i<100; i++) {
         j = 0;

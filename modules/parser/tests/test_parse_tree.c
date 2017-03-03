@@ -8,8 +8,6 @@
 #include "../../../headers/lexer.h"
 
 void main(int argc, char* argv[]){
-    int i;
-
     parse_table pt;
     tree t;
     t = createTree();

@@ -32,8 +32,9 @@ void creatParseTree(parse_table pt, tree t, Token *input){
                 readHead++;
             } else {
                 // Terminal match failed
-                printf("ERROR_5: The token %s for lexeme %s does not match at line %d. The expected token here is %s",
+                printf("ERROR_5: The token %s for lexeme %s does not match at line %d. The expected token here is %s.\n",
                 token_to_string(input[readHead].name), input[readHead].string, input[readHead].line_number, token_to_string(tok));
+                return;
             }
         } else {
             // Top of stack is non-terminal
@@ -60,7 +61,6 @@ void creatParseTree(parse_table pt, tree t, Token *input){
             } else {
                 // There is not entry in the table
                 // If the rule has an entry for epsilon
-                printf("%s\n", token_to_string(tok));
                 if(pt[tok-500][EPSILON-1000][0] != 0){
                     // pass
                 } else {
@@ -72,7 +72,8 @@ void creatParseTree(parse_table pt, tree t, Token *input){
                             printf("%s ", token_to_string(j+1000));
                         }
                     }
-                    printf("\n");
+                    printf(".\n");
+                    return;
                 }
             }
         }
