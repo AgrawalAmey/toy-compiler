@@ -11,7 +11,7 @@ void main(){
 
     parse_table pt;
 
-    creatParseTable("../../lang/grammer.txt", "../../lang/first.txt", "../../lang/follow.txt", pt);
+    creatParseTable("../../../lang/grammer.txt", pt);
 
     for(i=0; i<51; i++) {
         for (j = 0; j < 58; j++) {

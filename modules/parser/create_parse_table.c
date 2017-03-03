@@ -31,6 +31,11 @@ void creatParseTable(char * grammerFile, parse_table pt){
 
     while (g[i].lhs != 0){
 
+        // Reset first
+        for (j = 0; j < 30; j++) {
+            first[j] = 0;
+        }
+
         // Get the first set for rhs
         findFirstRecursive(g[i].rhs, nt, first, 0);
 

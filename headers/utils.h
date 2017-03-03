@@ -13,21 +13,19 @@ const char * token_to_string(token tok);
 token string_to_keyword(const char *str);
 
 // Stack functions
-
-// creates empty stack
-stack createStack();
+stackNode* createNode(token data);
 
 // push
-void push(token data, stack s);
+void push(token data, stackNode** root);
 
 // pop
-token pop(stack s);
+token pop(stackNode** root);
 
 // to check if stack is empty
-int isStackEmpty(stack s);
+int isStackEmpty(stackNode** root);
 
-// To print stack
-void printStack(stack s);
+// Top of the stack
+token top(stackNode** root);
 
 
 // Tree functions

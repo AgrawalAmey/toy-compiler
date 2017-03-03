@@ -37,16 +37,11 @@ typedef struct stackNode {
 	struct stackNode* next;
 } stackNode;
 
-typedef struct {
-	stackNode** front;
-	stackNode** rear;
-} stack;
-
 // Tree
 typedef struct tree_node {
     Token data;
     int associated;
-    struct tree_node * children[10];
+    struct tree_node * children[20];
     struct tree_node * parent;
 } treeNode;
 

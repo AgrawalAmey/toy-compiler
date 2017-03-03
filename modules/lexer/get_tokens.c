@@ -89,7 +89,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						state = 2;
 						tok.name = PLUS;
 						tok.line_number = line_number;
-						strcpy(tok.string, "PLUS");
+						strcpy(tok.string, "+");
 						offset++;
 						tokenArray[tokenIndex] = tok;
 						tokenIndex++;
@@ -101,7 +101,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						state = 3;
 						tok.name = MINUS;
 						tok.line_number = line_number;
-						strcpy(tok.string, "MINUS");
+						strcpy(tok.string, "-");
 						offset++;
 						tokenArray[tokenIndex] = tok;
 						tokenIndex++;
@@ -113,7 +113,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						state = 5;
 						tok.name = MUL;
 						tok.line_number = line_number;
-						strcpy(tok.string, "MUL");
+						strcpy(tok.string, "*");
 						offset++;
 						tokenArray[tokenIndex] = tok;
 						tokenIndex++;
@@ -125,7 +125,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						state = 10;
 						tok.name = DIV;
 						tok.line_number = line_number;
-						strcpy(tok.string, "DIV");
+						strcpy(tok.string, "/");
 						offset++;
 						tokenArray[tokenIndex] = tok;
 						tokenIndex++;
@@ -157,7 +157,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						state = 28;
 						tok.name = COMMA;
 						tok.line_number = line_number;
-						strcpy(tok.string, "COMMA");
+						strcpy(tok.string, ",");
 						offset++;
 						tokenArray[tokenIndex] = tok;
 						tokenIndex++;
@@ -169,7 +169,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						state = 29;
 						tok.name = SEMICOL;
 						tok.line_number = line_number;
-						strcpy(tok.string, "SEMICOL");
+						strcpy(tok.string, ";");
 						offset++;
 						tokenArray[tokenIndex] = tok;
 						tokenIndex++;
@@ -181,7 +181,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						state = 30;
 						tok.name = SQBO;
 						tok.line_number = line_number;
-						strcpy(tok.string, "SQBO");
+						strcpy(tok.string, "[");
 						offset++;
 						tokenArray[tokenIndex] = tok;
 						tokenIndex++;
@@ -193,7 +193,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						state = 31;
 						tok.name = SQBC;
 						tok.line_number = line_number;
-						strcpy(tok.string, "SQBC");
+						strcpy(tok.string, "]");
 						offset++;
 						tokenArray[tokenIndex] = tok;
 						tokenIndex++;
@@ -205,7 +205,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						state = 32;
 						tok.name = BO;
 						tok.line_number = line_number;
-						strcpy(tok.string, "BO");
+						strcpy(tok.string, "(");
 						offset++;
 						tokenArray[tokenIndex] = tok;
 						tokenIndex++;
@@ -217,7 +217,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						state = 33;
 						tok.name = BC;
 						tok.line_number = line_number;
-						strcpy(tok.string, "BC");
+						strcpy(tok.string, ")");
 						offset++;
 						tokenArray[tokenIndex] = tok;
 						tokenIndex++;
@@ -246,7 +246,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						if(buffer[offset] == '='){
 							tok.name = LE;
 							tok.line_number = line_number;
-							strcpy(tok.string, "LE");
+							strcpy(tok.string, "<=");
 							offset++;
 							tokenArray[tokenIndex] = tok;
 							tokenIndex++;
@@ -259,7 +259,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						} else {
 							tok.name = LT;
 							tok.line_number = line_number;
-							strcpy(tok.string, "LT");
+							strcpy(tok.string, "<");
 							tokenArray[tokenIndex] = tok;
 							tokenIndex++;
 							lex_i = 0;
@@ -272,7 +272,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						if(buffer[offset] == '<'){
 							lex[lex_i++] = buffer[offset++];
 							tok.name = DRIVERDEF;
-							strcpy(tok.string, "DRIVERDEF");
+							strcpy(tok.string, "<<<");
 							tok.line_number = line_number;
 							tokenArray[tokenIndex] = tok;
 							tokenIndex++;
@@ -281,7 +281,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						} else {
 							tok.name = DEF;
 							tok.line_number = line_number;
-							strcpy(tok.string, "DEF");
+							strcpy(tok.string, "<<");
 							tokenArray[tokenIndex] = tok;
 							tokenIndex++;
 							lex_i = 0;
@@ -294,7 +294,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						if(buffer[offset] == '='){
 							tok.name = GE;
 							tok.line_number = line_number;
-							strcpy(tok.string, "GE");
+							strcpy(tok.string, ">=");
 							offset++;
 							tokenArray[tokenIndex] = tok;
 							tokenIndex++;
@@ -307,7 +307,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						} else {
 							tok.name = GT;
 							tok.line_number = line_number;
-							strcpy(tok.string, "GT");
+							strcpy(tok.string, ">");
 							tokenArray[tokenIndex] = tok;
 							tokenIndex++;
 							lex_i = 0;
@@ -319,7 +319,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						if(buffer[offset] == '>'){
 							tok.name = DRIVERENDDEF;
 							tok.line_number = line_number;
-							strcpy(tok.string, "DRIVERENDDEF");
+							strcpy(tok.string, ">>>");
 							offset++;
 							tokenArray[tokenIndex] = tok;
 							tokenIndex++;
@@ -328,7 +328,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						} else {
 							tok.name = ENDDEF;
 							tok.line_number = line_number;
-							strcpy(tok.string, "ENDDEF");
+							strcpy(tok.string, ">>");
 							tokenArray[tokenIndex] = tok;
 							tokenIndex++;
 							lex_i = 0;
@@ -342,7 +342,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						if(buffer[offset] == '='){
 							tok.name = EQ;
 							tok.line_number = line_number;
-							strcpy(tok.string, "EQ");
+							strcpy(tok.string, "=");
 							offset++;
 							tokenArray[tokenIndex] = tok;
 							tokenIndex++;
@@ -355,7 +355,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						if(buffer[offset] == '='){
 							tok.name = NE;
 							tok.line_number = line_number;
-							strcpy(tok.string, "NE");
+							strcpy(tok.string, "!=");
 							offset++;
 							tokenArray[tokenIndex] = tok;
 							tokenIndex++;
@@ -369,7 +369,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						if(buffer[offset] == '='){
 							tok.name = ASSIGNOP;
 							tok.line_number = line_number;
-							strcpy(tok.string, "ASSIGNOP");
+							strcpy(tok.string, ":=");
 							offset++;
 							tokenArray[tokenIndex] = tok;
 							tokenIndex++;
@@ -378,7 +378,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						} else {
 							tok.name = COLON;
 							tok.line_number = line_number;
-							strcpy(tok.string, "COLON");
+							strcpy(tok.string, ":");
 							tokenArray[tokenIndex] = tok;
 							tokenIndex++;
 							lex_i = 0;
@@ -513,9 +513,9 @@ int getTokens(const char* filename, Token* tokenArray){
 
 				case 42:
 						if(buffer[offset] == '.'){
-							tok.name =RANGEOP;
-							tok.line_number=line_number;
-							strcpy(tok.string, "RANGEOP");
+							tok.name = RANGEOP;
+							tok.line_number = line_number;
+							strcpy(tok.string, "..");
 							offset++;
 							tokenArray[tokenIndex] = tok;
 							tokenIndex++;

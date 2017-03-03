@@ -18,18 +18,15 @@ void main(int argc, char* argv[]){
 
     creatParseTable("../../../lang/grammer.txt", pt);
 
-    printf("Parse table is genrated.\n");
+    printf("Parse table genration finished.\n");
 
     getTokens("../../../test_cases/testcase4.txt", input);
 
     printf("Tokenization finished.\n");
 
-    while (input[i].name != eof) {
-        printf("%s %s %d\n", input[i].string, token_to_string(input[i].name), input[i].line_number);
-        i++;
-    }
-
     creatParseTree(pt, t, input);
+
+    printf("Parse tree genration finished.\n");
 
     printInorder(t);
 }

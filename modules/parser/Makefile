@@ -16,12 +16,12 @@ test_find_ff:
 	find_first.c find_follow.c ../../utils/token.c -o ./bin/test_find_ff.exe
 
 test_parse_table:
-	gcc ./tests/test_parse_table.c create_parse_table.c find_first_and_follow.c \
+	gcc create_parse_table.c find_first_and_follow.c \
 	read_grammer.c find_first.c find_follow.c find_first_recursive.c \
-	../../utils/token.c -o ./bin/test_parse_table.exe
+	../../utils/token.c  ./tests/test_parse_table.c -o ./bin/test_parse_table.exe
 
 test_parse_tree:
-	gcc create_parse_tree.c create_parse_table.c find_first_and_follow.c \
+	gcc -g create_parse_tree.c create_parse_table.c find_first_and_follow.c \
 	read_grammer.c find_first.c find_follow.c find_first_recursive.c \
 	../lexer/create_token.c ../lexer/get_stream.c ../lexer/get_tokens.c \
 	../lexer/patterns.c ../lexer/remove_comments.c \

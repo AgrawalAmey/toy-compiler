@@ -13,13 +13,16 @@ treeNode ** createTree(){
 
 // Inserts nodes as children to given node
 void insertTreeNodes(token *vals, treeNode ** root){
-    int i, j= 0;
+    int i = 0;
+    int j = 0;
+
     // Assumes that the node has no children initially
     while (vals[i] != 0) {
+
         treeNode * temp;
         temp = (treeNode *)malloc(sizeof(treeNode));
         // We have set maximum number of children at 10
-        for(j=0; j<10; j++){
+        for(j=0; j<20; j++){
             temp->children[j] = NULL;
         }
 
@@ -30,6 +33,7 @@ void insertTreeNodes(token *vals, treeNode ** root){
         // For root node insertion
         if(*root == NULL){
             *root = temp;
+            return;
         } else{
             // Update child pointer of parent
             (**root).children[i] = temp;
@@ -49,17 +53,21 @@ int insertInTree(token * vals, treeNode ** tree){
         return 1;
     // For non-terminal nodes
     } else if((**tree).data.name < 1000){
+        if((**tree).children[0] == NULL){
+            // Child does not exist so insert here
+            insertTreeNodes(vals, tree);
+            return 1;
+        }
         // Try to insert at the left-most children
-        for(i=0; i<10; i++){
+        for(i=0; i<20; i++){
             if((**tree).children[i] != NULL){
                 if(insertInTree(vals, &((**tree).children[i]))){
                     return 1;
                 }
             }
         }
-        // Insertion in children failed so we must insert the value here itself
-        insertTreeNodes(vals, tree);
-        return 1;
+
+        return 0;
     // The node is a terminal
     } else {
         return 0;
@@ -77,7 +85,7 @@ int insertLeafData(Token t, treeNode **tree){
             return 1;
         } else {
             // Try to insert into children
-            for(i=0; i<10; i++){
+            for(i=0; i<20; i++){
                 if((**tree).children[i] != NULL){
                     if(insertLeafData(t, &((**tree).children[i]))){
                         return 1;
@@ -92,18 +100,24 @@ int insertLeafData(Token t, treeNode **tree){
 void printInorder(treeNode **tree){
     int i;
 
-    if(tree){
+    if(*tree != NULL){
         printInorder(&((**tree).children[0]));
         // If is a terminal or leaf in other words
-        if((**tree).data.name >= 1000){
+        if((**tree).data.name >= 1000 && (**tree).data.name != EPSILON){
             printf("%s %d %s %s yes %s %s\n", (**tree).data.string, (**tree).data.line_number,
                 token_to_string((**tree).data.name), (**tree).data.string,
                 token_to_string((*(**tree).parent).data.name), token_to_string((**tree).data.name));
         } else {
-            printf("--- --- --- --- no %s %s\n", token_to_string((*(**tree).parent).data.name), token_to_string((**tree).data.name));
+            // If parent is null (Only possible with with non-terminal root)
+            if((**tree).parent == NULL){
+                printf("--- --- --- --- no ROOT %s\n", token_to_string((**tree).data.name));
+            } else {
+                printf("--- --- --- --- no %s %s\n",
+                    token_to_string((*(**tree).parent).data.name), token_to_string((**tree).data.name));
+            }
         }
 
-        for(i=1; i<10; i++){
+        for(i=1; i<20; i++){
             printInorder(&((**tree).children[i]));
         }
     }
