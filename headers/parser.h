@@ -3,7 +3,7 @@
 #define PARSER
 
 // Read grammer.txt to right data-structure
-void readGrammer(const char *filename, grammer g);
+int readGrammer(const char *filename, grammer g);
 
 // Read first.txt and follow.txt to right data-structure
 void readFirstAndFollow(const char *first_file, const char *follow_file, non_terminals nt);
@@ -21,7 +21,7 @@ int findFirst(token tok, token *rhs, non_terminals nt, int index);
 int findFollow(token tok, token lhs, token *rhs, non_terminals nt, int index);
 
 // Makes parse table
-void creatParseTable(char * grammerFile, char * firstFile, char * followFile, parse_table pt);
+void creatParseTable(char * grammerFile, parse_table pt);
 
 // Makes parse tree
 void creatParseTree(parse_table pt, tree t, Token *input);

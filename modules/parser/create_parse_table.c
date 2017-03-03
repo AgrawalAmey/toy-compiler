@@ -6,7 +6,7 @@
 #include "../../headers/parser.h"
 #include "../../headers/utils.h"
 
-void creatParseTable(char * grammerFile, char * firstFile, char * followFile, parse_table pt){
+void creatParseTable(char * grammerFile, parse_table pt){
     int i, j, k;
     grammer g;
     non_terminals nt;
@@ -16,7 +16,7 @@ void creatParseTable(char * grammerFile, char * firstFile, char * followFile, pa
     // This needs to be defined here because possition of these files respect to
     // caller fuction may be different
     readGrammer(grammerFile, g);
-    readFirstAndFollow(firstFile, followFile, nt);
+    findFirstAndFollow(g, nt);
 
     // Zero initialization
     for (i = 0; i < 100; i++) {

@@ -27,6 +27,7 @@ void push(token data, stack s){
 
 token pop(stack s){
 	stackNode* temp = *s.rear;
+    token t;
 	if(*s.rear == NULL) {
 		printf("Stack is Empty\n");
 		return -1;

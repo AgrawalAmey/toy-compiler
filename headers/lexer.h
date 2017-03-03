@@ -10,17 +10,14 @@ int isAlphabet(char ch);
 
 int isDigit(char ch);
 
-Token createToken(char * lex,int l,Token tok);
+Token createToken(char * lex,int l);
 
-FILE* getStream(FILE *fp,char *buffer,int size);
-
-char * fetch_or_not(FILE* fp,char * buffer,int flag,int size);
-
-Token getNextToken(FILE* fp,char* buffer,int size);
+FILE* getStream(FILE *fp, char *buffer, int offset);
 
 void removeComments(char *testcaseFile,char *cleanFile);
 
-Token* getTokens(const char* filename,Token* tokenArray);
+int getTokens(const char* filename,Token* tokenArray);
 
+#define SIZE 4000
 
 #endif // LEXSER

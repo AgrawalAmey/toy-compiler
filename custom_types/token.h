@@ -117,6 +117,7 @@ typedef enum {
     USE,
     WHILE,
     WITH,
+	COMMENTMARK,
     EPSILON,
 	eof
 } token;

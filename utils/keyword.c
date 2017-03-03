@@ -12,10 +12,10 @@ const static struct {
 } keyword_conversions[] = {
     // keywords: A subset of tokens
     { AND, "AND" },
-    { ARRAY, "array" },   
+    { ARRAY, "array" },
     { BOOLEAN, "boolean" },
     { BREAK, "break" },
-    { CASE, "case" },   
+    { CASE, "case" },
     { DECLARE, "declare" },
     { DEFAULT, "default" },
     { DRIVER, "driver" },
@@ -50,15 +50,5 @@ token string_to_keyword(const char *str){
          if (!strcmp (str, keyword_conversions[i].str))
              return keyword_conversions[i].val;
      }
-     printf("Invalid keyword string: %s.\n", str);
-}
-
-// Returns string from keyword enum
-const char * keyword_to_string(token tok){
-     int i;
-     for (i = 0;  i < sizeof (keyword_conversions) / sizeof (keyword_conversions[0]);  i++){
-         if (tok == keyword_conversions[i].val)
-             return keyword_conversions[i].str;
-     }
-     printf("Invalid keyword: %d.\n", tok);
+     return 0;
 }

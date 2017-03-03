@@ -117,6 +117,7 @@ const static struct {
     { USE, "USE" },
     { WHILE, "WHILE" },
     { WITH, "WITH" },
+    { COMMENTMARK, "COMMENTMARK" },
     { EPSILON, "EPSILON" },
     { eof, "EOF" }
 };

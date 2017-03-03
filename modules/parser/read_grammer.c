@@ -6,13 +6,14 @@
 #include "../../headers/utils.h"
 #include "../../headers/parser.h"
 
-void readGrammer(const char *filename, grammer g){
+int readGrammer(const char *filename, grammer g){
 
     int i, j;
     FILE *f = fopen(filename, "rt");
-    if (f == NULL)
-        printf("File does not exist.\n");
-
+    if (f == NULL){
+        printf("Grammer File does not exist.\n");
+        return -1;
+    }
     // Tokens are no longer
     char buffer[50];
     char ch;

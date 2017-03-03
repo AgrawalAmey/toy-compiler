@@ -12,10 +12,6 @@ const char * token_to_string(token tok);
 // Convert a string to currusponding token enum
 token string_to_keyword(const char *str);
 
-// Returns string from keyword enum
-const char * keyword_to_string(token tok);
-
-
 // Stack functions
 
 // creates empty stack
