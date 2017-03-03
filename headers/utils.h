@@ -12,6 +12,9 @@ const char * token_to_string(token tok);
 // Convert a string to currusponding token enum
 token string_to_keyword(const char *str);
 
+// String to original symbol
+const char * token_to_symbol(token tok);
+
 // Stack functions
 stackNode* createNode(token data);
 

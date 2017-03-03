@@ -26,4 +26,5 @@ test_parse_tree:
 	../lexer/create_token.c ../lexer/get_stream.c ../lexer/get_tokens.c \
 	../lexer/patterns.c ../lexer/remove_comments.c  read_ff.c \
 	../../utils/token.c ../../utils/keyword.c  ../../utils/tree.c \
-	../../utils/stack.c  ./tests/test_parse_tree.c -o ./bin/test_parse_tree.exe
+	../../utils/stack.c  ./tests/test_parse_tree.c \
+	../../utils/token_to_symbol.c -o ./bin/test_parse_tree.exe

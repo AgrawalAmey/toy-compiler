@@ -104,15 +104,16 @@ void printInorder(treeNode **tree){
         printInorder(&((**tree).children[0]));
         // If is a terminal or leaf in other words
         if((**tree).data.name >= 1000 && (**tree).data.name != EPSILON){
-            printf("%s %d %s %s yes %s %s\n", (**tree).data.string, (**tree).data.line_number,
-                token_to_string((**tree).data.name), (**tree).data.string,
-                token_to_string((*(**tree).parent).data.name), token_to_string((**tree).data.name));
+            printf("| %25s | %25d | %25s | %25s | %25s | %25s | %25s |\n\n", (**tree).data.string, (**tree).data.line_number,
+                token_to_string((**tree).data.name), (**tree).data.string, "yes",
+                token_to_string((*(**tree).parent).data.name), token_to_symbol((**tree).data.name));
         } else {
             // If parent is null (Only possible with with non-terminal root)
             if((**tree).parent == NULL){
-                printf("--- --- --- --- no ROOT %s\n", token_to_string((**tree).data.name));
+                printf("| %25s | %25s | %25s | %25s | %25s | %25s | %25s |\n\n", "---", "---", token_to_string((**tree).data.name), "---", "no", "ROOT", token_to_string((**tree).data.name));
             } else {
-                printf("--- --- --- --- no %s %s\n",
+                printf("| %25s | %25s | %25s | %25s | %25s | %25s | %25s |\n\n",
+                    "---", "---", token_to_string((**tree).data.name), "---", "no",
                     token_to_string((*(**tree).parent).data.name), token_to_string((**tree).data.name));
             }
         }

@@ -610,5 +610,8 @@ int getTokens(const char* filename, Token* tokenArray){
 		}
 
 	}
+	if(errorflag){
+		exit(1);
+	}
 
 }
