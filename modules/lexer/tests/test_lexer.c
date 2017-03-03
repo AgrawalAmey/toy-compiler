@@ -10,8 +10,9 @@
 int main(int agrc, char * argv[] )
 {
 	Token input[1000];
+	int i = 0;
 
-	getTokens("../../../test_cases/testcase4.txt", input);
+	getTokens("../../../test_cases/testcase5.txt", input);
 
     printf("Tokenization finished.\n");
 

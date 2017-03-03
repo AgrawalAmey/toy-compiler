@@ -10,6 +10,7 @@
 
 int getTokens(const char* filename, Token* tokenArray){
 	int i = 0;
+	int errorflag=0;//=1 if there is an error
 
 	char buffer[SIZE] = { '\0' };
 
@@ -229,9 +230,12 @@ int getTokens(const char* filename, Token* tokenArray){
 						state = 42;
 						lex[lex_i++] = buffer[offset++];
 					}
-					else{
-						printf("ERROR_2:Unknown Symbol %c at line %d\n", buffer[offset], line_number);
-						offset++;
+
+					else
+					{
+						state=52;
+						
+						
 					}
 
 					break;
@@ -349,6 +353,11 @@ int getTokens(const char* filename, Token* tokenArray){
 							lex_i = 0;
 							state = 1;
 						}
+
+						else
+						{
+							state=53;//unknown pattern
+						}
 					break;
 
 				case 23:
@@ -454,6 +463,8 @@ int getTokens(const char* filename, Token* tokenArray){
 
 										state = 1;
 
+
+
 									}
 									else if(buffer[offset] == '+' || buffer[offset] == '-'){
 										state = 39;
@@ -484,7 +495,19 @@ int getTokens(const char* filename, Token* tokenArray){
 											state = 1;
 
 										}
+
+										else
+										{
+											state=53;//unknown pattern
+
+										}
 									}
+
+									else
+									{
+										state=53;//Unknown Pattern
+									}
+
 								}
 								else{
 									lex[lex_i] = '\0';
@@ -497,6 +520,10 @@ int getTokens(const char* filename, Token* tokenArray){
 
 									state = 1;
 								}
+							}
+							else
+							{
+								state=53;//eg for "1.abcd", I will have 1. as the error token
 							}
 						}
 						else{
@@ -522,8 +549,9 @@ int getTokens(const char* filename, Token* tokenArray){
 							lex_i = 0;
 							state = 1;
 						} else {
+							state=53;
 							offset++;
-							printf("Error\n");
+							//printf("Error\n");
 						}
 
 						break;
@@ -543,7 +571,7 @@ int getTokens(const char* filename, Token* tokenArray){
 						tok = createToken(lex, line_number);
 
 						if(tok.name == ID && (strlen(lex) > 8)){
-							state = 50;//error 1
+							state = 51;//error 1
 						} else{
 							tokenArray[tokenIndex] = tok;
 							tokenIndex++;
@@ -553,14 +581,33 @@ int getTokens(const char* filename, Token* tokenArray){
 
 						break;
 
-				case 50://error 1
-						printf("Identifier at line %d is longer than prescribed length\n",line_number );
-						state = 1;
-						break;
+				case 51://error 1
+					printf("ERROR_1:Identifier at line %d is longer than prescribed length\n",line_number );
+					state=1;
+					errorflag=1;
+					break;
+				case 52://error 2
+					printf("ERROR_2:Unknown Symbol %c at line %d\n",buffer[offset],line_number);
+					state=1;
+					offset++;
+					errorflag=1;
+					break;
+
+				case 53://error 3
+					lex[lex_i] = '\0';
+					printf("Error_3:Unknown Pattern on line %d.Lexeme so far:%s\n",line_number ,lex);
+					state=1;
+					errorflag=1;
+					
+					break;
 
 				default:
-						printf("Error\n");
-						offset++;
+					
+					printf("Error\n");
+					offset++;
+					
+
+				
 
 		}
 
