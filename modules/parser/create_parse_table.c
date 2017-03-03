@@ -17,8 +17,8 @@ void creatParseTable(char * grammerFile, parse_table pt){
     // caller fuction may be different
     readGrammer(grammerFile, g);
 
-    readFirstAndFollow("../../../lang/first.txt", "../../../lang/follow.txt", nt);
-    // findFirstAndFollow(g, nt);
+    // readFirstAndFollow("../../../lang/first.txt", "../../../lang/follow.txt", nt);
+    findFirstAndFollow(g, nt);
 
     // Zero initialization
     for (i = 0; i < 100; i++) {
@@ -40,7 +40,7 @@ void creatParseTable(char * grammerFile, parse_table pt){
 
         // Get the first set for rhs
         findFirstRecursive(g[i].rhs, nt, first, 0);
-        
+
         // The three cases
 
         // Iterate over first set

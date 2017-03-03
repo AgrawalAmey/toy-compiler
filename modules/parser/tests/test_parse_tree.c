@@ -18,7 +18,7 @@ void main(int argc, char* argv[]){
 
     printf("Parse table genration finished.\n");
 
-    getTokens("../../../test_cases/testcase4.txt", input);
+    getTokens("../../../test_cases/testcase2.txt", input);
 
     printf("Tokenization finished.\n");
 

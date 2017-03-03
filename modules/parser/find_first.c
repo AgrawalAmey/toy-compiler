@@ -16,13 +16,19 @@ int findFirst(token tok, token *rhs, non_terminals nt, int index){
     int ifExists = 0;
 
     if (rhs[0] == 0){
+        while(nt[tok-500].first[j] != 0){
+            if (nt[tok-500].first[j] == EPSILON) {
+                return index;
+            }
+            j++;
+        }
         return index;
     }
 
     // Index of terminals start from 1000
     // Terminal Case
     if (rhs[0] >= 1000){
-
+        j = 0;
         // Check if it already exists
         while(nt[tok-500].first[j] != 0){
             if (nt[tok-500].first[j] == rhs[0]) {
@@ -53,7 +59,7 @@ int findFirst(token tok, token *rhs, non_terminals nt, int index){
                 j++;
             }
 
-            if(!ifExists){
+            if(!ifExists && nt[rhs[0]-500].first[i] != EPSILON){
                 nt[tok-500].first[index] = nt[rhs[0]-500].first[i];
                 index++;
             }
