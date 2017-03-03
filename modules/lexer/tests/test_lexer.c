@@ -9,46 +9,15 @@
 
 int main(int agrc, char * argv[] )
 {
-	// char str[40]="he****a ** \n abcdef ** pr ** there";
-	// char output[40];
-	// removeComments(str,output);
-	// printf("%s\n",output );
+	Token input[1000];
 
+	getTokens("../../../test_cases/testcase4.txt", input);
 
-	FILE* fp;
-	int size=50;
-	fp=fopen(argv[1],"r");
+    printf("Tokenization finished.\n");
 
-	if(fp == NULL){
-		printf("File does not exist.\n");
-		return -1;
-	}
-
-	char * buffer=(char *)malloc((size)*sizeof(char));
-	int i=0;
-	for(i=0;i<size;i++)
-		buffer[i]='\0';
-	fp=getStream(fp,buffer,size);
-
-
-	i=0;
-	for(i=0;i<1000;i++)
-	{
-		tokenArray[i]=getNextToken(fp,buffer,size);
-		if(tokenArray[i].name==COMMENTMARK)
-			{
-				i--;
-				continue;
-			}
-
-		if(tokenArray[i].name==eof)//eof encountered
-		{
-			printf("%s  %d  %d\n",tokenArray[i].string,tokenArray[i].name,state );
-			break;
-		}
-		printf("%s  %d  %d\n",tokenArray[i].string,tokenArray[i].name,state );
-
-	}
-
+    while (input[i].name != eof) {
+        printf("%s %s %d\n", input[i].string, token_to_string(input[i].name), input[i].line_number);
+        i++;
+    }
 	return 0;
 }
