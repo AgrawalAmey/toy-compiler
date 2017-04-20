@@ -11,6 +11,7 @@ end
 takes input [x:integer];
 returns [value:integer];
 start
+	declare hello:real;
 	value:= x*x;
 end
 
