@@ -6,7 +6,7 @@
 #include "../utils/utils.h"
 #include "./symbol_table.h"
 
-// Insert an entry in symbol table
+// Get an entry in symbol table
 int
 getEntryFromSTT(char * key, tableEntry * data, int scopeId, STTNode ** root)
 {
@@ -15,7 +15,7 @@ getEntryFromSTT(char * key, tableEntry * data, int scopeId, STTNode ** root)
     if (*root == NULL) {
         return -1;
     } else if ((**root).scopeId == scopeId) {
-        // Insert here
+        // Get here
         result = findInHashtable((**root).table, key, data);
         // Clash occured while inserting
         if (result == -1) {
@@ -34,13 +34,13 @@ getEntryFromSTT(char * key, tableEntry * data, int scopeId, STTNode ** root)
     }
 }
 
-// Insert an entry in symbol table
+// Get an entry in symbol table
 int
 getEntryFromFT(char * key, tableEntry * data, hashTable * fT)
 {
     int result;
 
-    result = insertInHashtable(fT, key, data);
+    result = findInHashtable(fT, key, data);
 
     if (result == -1) {
         printf("Error: %s is not defined.\n", key);
