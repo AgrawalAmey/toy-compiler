@@ -65,6 +65,10 @@ populateSymbolTable(parseTree pT, symbolTableTree sT, hashTable * fT)
                     data->type = (**pT).children[1]->data.name;
                 } else {
                     data->type = (**pT).children[1]->children[0]->data.name;
+                    if (data->type == ARRAY) {
+                        data->startRange = atoi((**pT).children[1]->children[1]->children[0]->data.string);
+                        data->endRange   = atoi((**pT).children[1]->children[1]->children[1]->data.string);
+                    }
                 }
 
                 data->location = -1;

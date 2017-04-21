@@ -14,25 +14,39 @@ getEntryFromSTT(char * key, tableEntry * data, int scopeId, STTNode ** root)
 
     if (*root == NULL) {
         return -1;
-    } else if ((**root).scopeId == scopeId) {
+    }
+
+    if ((**root).scopeId == scopeId) {
         // Get here
         result = findInHashtable((**root).table, key, data);
-        // Clash occured while inserting
+        // Not found
         if (result == -1) {
-            printf("Error: %s is not defined.\n", key);
-            return -1;
+            return -2;
         }
-        return 1;
-    } else {
-        // Recurse
-        for (i = 0; i < 20; i++) {
-            result = getEntryFromSTT(key, data, scopeId, &((**root).children[i]));
-            if (result >= 0) {
-                return result;
-            }
+        // Found it
+        return (**root).scopeId;
+    }
+
+    // Recurse
+    for (i = 0; i < 20; i++) {
+        result = getEntryFromSTT(key, data, scopeId, &((**root).children[i]));
+        if (result != -1) {
+            return result;
         }
     }
-}
+    // If result == -1
+    // Try finding in yourself
+    result = findInHashtable((**root).table, key, data);
+    // Not found
+    if (result == -1) {
+        return -1;
+    } else if (result == -1) {
+        printf("Error: %s is undefined.\n", key);
+        return -2;
+    } else {
+        return (**root).scopeId;
+    }
+} /* getEntryFromSTT */
 
 // Get an entry in symbol table
 int

@@ -12,6 +12,10 @@ complie:
 	../src/ast/ast.c ../src/ast/ast_helpers.c \
 	../src/symbol_table/symbol_table_tree.c ../src/symbol_table/insert_in_tables.c \
 	../src/symbol_table/populate_symbol_table.c ../src/symbol_table/get_from_tables.c \
+	../src/code_gen/add_variable_defs.c ../src/code_gen/code_gen.c \
+	../src/code_gen/add_io_stmt.c ../src/code_gen/add_assign_stmt.c \
+	../src/code_gen/add_itr_stmt.c ../src/code_gen/add_cond_stmt.c \
+	../src/code_gen/add_expressions.c \
 	../src/utils/token.c ../src/utils/keyword.c \
 	../src/utils/stack.c ../src/utils/hashtable.c \
 	../src/utils/token_to_symbol.c ../src/driver.c -o complier.exe

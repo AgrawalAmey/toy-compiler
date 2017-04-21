@@ -57,6 +57,8 @@ typedef  struct{
     int isDefined;
     token inputTypes[20];
     token outputTypes[20];
+    int startRange;
+    int endRange;
 } tableEntry;
 
 typedef struct hashTableEntry {

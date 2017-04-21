@@ -210,5 +210,57 @@ createAST(parseTreeNode ** tree)
         (**tree).children[0] = newNode;
     }
 
+
+    // For shifting the ops up
+    if ((**tree).data.name == N4 || (**tree).data.name == N5 ||
+      (**tree).data.name == N7 || (**tree).data.name == N8)
+    {
+        int i = 0;
+        parseTreeNode * temp;
+        temp = *tree;
+        token parentName = (**tree).parent->data.name;
+        // If we have not reached to the end of the recurssion
+        if (temp->parent->data.name == temp->data.name) {
+            temp->children[0]->parent         = temp->parent;
+            temp->children[0]->children[0]    = temp->parent->children[1];
+            temp->parent->children[1]->parent = temp->children[0];
+            temp->children[0]->children[1]    = temp->children[1];
+            temp->children[1]->parent         = temp->children[0];
+            temp->parent->children[1]         = temp->children[0];
+            temp->parent->children[2]         = NULL;
+            *tree = temp->parent->children[1];
+            free(temp);
+            // End if recursion
+        } else {
+            temp->children[0]->parent         = temp->parent->parent;
+            temp->children[0]->children[0]    = temp->parent->children[0];
+            temp->parent->children[0]->parent = temp->children[0];
+            temp->children[0]->children[1]    = temp->children[1];
+            temp->children[1]->parent         = temp->children[0];
+            *tree = temp->children[0];
+            i     = 0;
+            while ((**tree).parent->children[i] != NULL && (**tree).parent->children[i]->data.name != parentName) {
+                i++;
+            }
+            (**tree).parent->children[i] = *tree;
+            free(temp->parent);
+            free(temp);
+        }
+    }
+
+    if ((**tree).data.name == AnyTerm || (**tree).data.name == term ||
+      (**tree).data.name == factor || (**tree).data.name == arithmeticExpr ||
+      (**tree).data.name == arithmeticOrBooleanExpr)
+    {
+        int i = 0;
+        parseTreeNode * temp = (**tree).children[0];
+        (**tree).children[0]->parent = (**tree).parent;
+        while ((**tree).parent->children[i] != (**tree).parent) {
+            i++;
+        }
+        (**tree).parent->children[i] = (**tree).children[0];
+        *tree = temp;
+    }
+
     removeNullChildren(tree);
 } /* createAST */

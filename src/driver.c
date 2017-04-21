@@ -13,6 +13,7 @@
 #include "./parser/parser.h"
 #include "./ast/ast.h"
 #include "./symbol_table/symbol_table.h"
+#include "./code_gen/code_gen.h"
 
 void
 main(int argc, char * argv[])
@@ -73,7 +74,8 @@ main(int argc, char * argv[])
         printf("4. Print the parse tree.\n");
         printf("5. Print the AST.\n");
         printf("6. Print the symbol table tree.\n");
-        printf("7. Exit.\n");
+        printf("7. Genarate Code.\n");
+        printf("8. Exit.\n");
         printf("---------------------------------------------------\n");
         scanf("%d", &userChoice);
         printf("---------------------------------------------------\n");
@@ -121,10 +123,14 @@ main(int argc, char * argv[])
                 printHashtable(fT);
                 break;
             case 7:
+                populateSymbolTable(t, sT, fT);
+                genarateCode(t, sT);
+                break;
+            case 8:
                 break;
             default:
                 printf("Invalid option. Please select again.\n");
                 break;
         }
-    } while (userChoice != 7);
+    } while (userChoice != 8);
 } /* main */

@@ -1,9 +1,9 @@
 <<<driver program>>>
 start
-	
+
 end
 <<module empty>>
 takes input[a:boolean];
 start
-
+	a := 1 + 2 + 4 + 3; 
 end
