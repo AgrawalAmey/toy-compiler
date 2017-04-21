@@ -20,15 +20,15 @@ addExpression(parseTreeNode ** t, STTNode ** sT, char * buffer, int * lable_coun
     }
 
     for (i = 0; i < 20; i++) {
-        addExpression(t, sT, buffer, lable_count);
+        addExpression(&((**t).children[i]), sT, buffer, lable_count);
     }
 
     if ((**t).data.name == expression) {
-        strcat(buffer, "pop [__result__]");
+        strcat(buffer, "\tpop [__result__]\n");
         if ((**t).children[0]->data.name == MINUS) {
-            strcat(buffer, "mov eax, [__result__]");
-            strcat(buffer, "neg eax");
-            strcat(buffer, "mov [__result__], eax");
+            strcat(buffer, "\tmov eax, [__result__]\n");
+            strcat(buffer, "\tneg eax\n");
+            strcat(buffer, "\tmov [__result__], eax\n");
         }
     }
 
@@ -41,12 +41,12 @@ addExpression(parseTreeNode ** t, STTNode ** sT, char * buffer, int * lable_coun
             strcat(buffer, temp);
             // ID
         } else {
-            if ((**t).children[0]->children[1]->data.name == ID) {
+            if ((**t).children[0]->children[1] != NULL && (**t).children[0]->children[1]->data.name == ID) {
                 scopeId = getEntryFromSTT((**t).children[0]->children[1]->data.string, data, (**t).scopeId, sT);
                 sprintf(temp, "\tmov eax, [%s_%d]\n", (**t).children[0]->children[1]->data.string, scopeId);
                 strcat(buffer, temp);
             } else {
-                strcat(buffer, "mov eax, 0");
+                strcat(buffer, "\tmov eax, 0\n");
             }
             scopeId = getEntryFromSTT((**t).children[0]->children[0]->data.string, data, (**t).scopeId, sT);
             sprintf(temp, "\tmov eax, [%s_%d + 4 * eax]\n", (**t).children[0]->children[0]->data.string, scopeId);
@@ -55,40 +55,40 @@ addExpression(parseTreeNode ** t, STTNode ** sT, char * buffer, int * lable_coun
 
 
         // NUM
-        if ((**t).children[0]->children[1]->data.name == NUM) {
+        if ((**t).children[1]->children[0]->data.name == NUM) {
             if ((**t).data.name == PLUS) {
-                sprintf(temp, "\tadd eax, %s\n", (**t).children[0]->children[1]->data.string);
+                sprintf(temp, "\tadd eax, %s\n", (**t).children[1]->children[0]->data.string);
             } else if ((**t).data.name == MINUS) {
-                sprintf(temp, "\tsub eax, %s\n", (**t).children[0]->children[1]->data.string);
+                sprintf(temp, "\tsub eax, %s\n", (**t).children[1]->children[0]->data.string);
             } else if ((**t).data.name == AND) {
-                sprintf(temp, "\tand eax, %s\n", (**t).children[0]->children[1]->data.string);
+                sprintf(temp, "\tand eax, %s\n", (**t).children[1]->children[0]->data.string);
             } else {
-                sprintf(temp, "\tor eax, %s\n", (**t).children[0]->children[1]->data.string);
+                sprintf(temp, "\tor eax, %s\n", (**t).children[1]->children[0]->data.string);
             }
             strcat(buffer, temp);
             // ID
         } else {
-            if ((**t).children[0]->children[1]->data.name == ID) {
-                scopeId = getEntryFromSTT((**t).children[0]->children[1]->data.string, data, (**t).scopeId, sT);
-                sprintf(temp, "\tmov ebx, [%s_%d]\n", (**t).children[0]->children[1]->data.string, scopeId);
+            if ( (**t).children[1]->children[0] != NULL && (**t).children[1]->children[0]->data.name == ID) {
+                scopeId = getEntryFromSTT((**t).children[1]->children[0]->data.string, data, (**t).scopeId, sT);
+                sprintf(temp, "\tmov ebx, [%s_%d]\n", (**t).children[1]->children[0]->data.string, scopeId);
                 strcat(buffer, temp);
             } else {
-                strcat(buffer, "mov ebx, 0");
+                strcat(buffer, "\tmov ebx, 0\n");
             }
-            scopeId = getEntryFromSTT((**t).children[0]->children[1]->data.string, data, (**t).scopeId, sT);
+            scopeId = getEntryFromSTT((**t).children[1]->children[0]->data.string, data, (**t).scopeId, sT);
             if ((**t).data.name == PLUS) {
-                sprintf(temp, "\tadd eax, [%s_%d + 4 * ebx]\n", (**t).children[0]->children[1]->data.string, scopeId);
+                sprintf(temp, "\tadd eax, [%s_%d + 4 * ebx]\n", (**t).children[1]->children[0]->data.string, scopeId);
             } else if ((**t).data.name == MINUS) {
-                sprintf(temp, "\tsub eax, [%s_%d + 4 * ebx]\n", (**t).children[0]->children[1]->data.string, scopeId);
+                sprintf(temp, "\tsub eax, [%s_%d + 4 * ebx]\n", (**t).children[1]->children[0]->data.string, scopeId);
             } else if ((**t).data.name == AND) {
-                sprintf(temp, "\tand eax, [%s_%d + 4 * ebx]\n", (**t).children[0]->children[1]->data.string, scopeId);
+                sprintf(temp, "\tand eax, [%s_%d + 4 * ebx]\n", (**t).children[1]->children[0]->data.string, scopeId);
             } else {
-                sprintf(temp, "\tor eax, [%s_%d + 4 * ebx]\n", (**t).children[0]->children[1]->data.string, scopeId);
+                sprintf(temp, "\tor eax, [%s_%d + 4 * ebx]\n", (**t).children[1]->children[0]->data.string, scopeId);
             }
             strcat(buffer, temp);
         }
 
-        strcat(buffer, "push eax");
+        strcat(buffer, "\tpush eax\n");
     }
 
     if ((**t).data.name == MUL || (**t).data.name == DIV) {
@@ -98,12 +98,12 @@ addExpression(parseTreeNode ** t, STTNode ** sT, char * buffer, int * lable_coun
             strcat(buffer, temp);
             // ID
         } else {
-            if ((**t).children[0]->children[1]->data.name == ID) {
+            if ( (**t).children[0]->children[1] != NULL && (**t).children[0]->children[1]->data.name == ID) {
                 scopeId = getEntryFromSTT((**t).children[0]->children[1]->data.string, data, (**t).scopeId, sT);
                 sprintf(temp, "\tmov eax, [%s_%d]\n", (**t).children[0]->children[1]->data.string, scopeId);
                 strcat(buffer, temp);
             } else {
-                strcat(buffer, "mov eax, 0");
+                strcat(buffer, "\tmov eax, 0\n");
             }
             scopeId = getEntryFromSTT((**t).children[0]->children[0]->data.string, data, (**t).scopeId, sT);
             sprintf(temp, "\tmov eax, [%s_%d + 4 * eax]\n", (**t).children[0]->children[0]->data.string, scopeId);
@@ -111,36 +111,36 @@ addExpression(parseTreeNode ** t, STTNode ** sT, char * buffer, int * lable_coun
         }
 
         if ((**t).data.name == DIV) {
-            strcat(buffer, "mov	edx, 0");
+            strcat(buffer, "\tmov	edx, 0\n");
         }
 
         // NUM
-        if ((**t).children[0]->children[1]->data.name == NUM) {
+        if ((**t).children[1]->children[0]->data.name == NUM) {
             if ((**t).data.name == MUL) {
-                sprintf(temp, "\timul dword %s\n", (**t).children[0]->children[1]->data.string);
+                sprintf(temp, "\timul dword %s\n", (**t).children[1]->children[0]->data.string);
             } else {
-                sprintf(temp, "\tidiv dword %s\n", (**t).children[0]->children[1]->data.string);
+                sprintf(temp, "\tidiv dword %s\n", (**t).children[1]->children[0]->data.string);
             }
             strcat(buffer, temp);
             // ID
         } else {
-            if ((**t).children[0]->children[1]->data.name == ID) {
-                scopeId = getEntryFromSTT((**t).children[0]->children[1]->data.string, data, (**t).scopeId, sT);
-                sprintf(temp, "\tmov ebx [%s_%d]\n", (**t).children[0]->children[1]->data.string, scopeId);
+            if ((**t).children[1]->children[0] != NULL && (**t).children[1]->children[0]->data.name == ID) {
+                scopeId = getEntryFromSTT((**t).children[1]->children[0]->data.string, data, (**t).scopeId, sT);
+                sprintf(temp, "\tmov ebx [%s_%d]\n", (**t).children[1]->children[0]->data.string, scopeId);
                 strcat(buffer, temp);
             } else {
-                strcat(buffer, "mov ebx, 0");
+                strcat(buffer, "\tmov ebx, 0\n");
             }
-            scopeId = getEntryFromSTT((**t).children[0]->children[1]->data.string, data, (**t).scopeId, sT);
+            scopeId = getEntryFromSTT((**t).children[1]->children[0]->data.string, data, (**t).scopeId, sT);
             if ((**t).data.name == MUL) {
-                sprintf(temp, "\timul dword [%s_%d + 4 * ebx]\n", (**t).children[0]->children[1]->data.string, scopeId);
+                sprintf(temp, "\timul dword [%s_%d + 4 * ebx]\n", (**t).children[1]->children[0]->data.string, scopeId);
             } else {
-                sprintf(temp, "\tidiv dword [%s_%d + 4 * ebx]\n", (**t).children[0]->children[1]->data.string, scopeId);
+                sprintf(temp, "\tidiv dword [%s_%d + 4 * ebx]\n", (**t).children[1]->children[0]->data.string, scopeId);
             }
             strcat(buffer, temp);
         }
 
-        strcat(buffer, "push eax");
+        strcat(buffer, "\tpush eax\n");
     }
 
     if ((**t).data.name == GE || (**t).data.name == GT ||
@@ -153,12 +153,12 @@ addExpression(parseTreeNode ** t, STTNode ** sT, char * buffer, int * lable_coun
             strcat(buffer, temp);
             // ID
         } else {
-            if ((**t).children[0]->children[1]->data.name == ID) {
+            if ((**t).children[0]->children[1] != NULL && (**t).children[0]->children[1]->data.name == ID) {
                 scopeId = getEntryFromSTT((**t).children[0]->children[1]->data.string, data, (**t).scopeId, sT);
                 sprintf(temp, "\tmov eax, [%s_%d]\n", (**t).children[0]->children[1]->data.string, scopeId);
                 strcat(buffer, temp);
             } else {
-                strcat(buffer, "mov eax, 0");
+                strcat(buffer, "\tmov eax, 0\n");
             }
             scopeId = getEntryFromSTT((**t).children[0]->children[0]->data.string, data, (**t).scopeId, sT);
             sprintf(temp, "\tmov eax, [%s_%d + 4 * eax]\n", (**t).children[0]->children[0]->data.string, scopeId);
@@ -166,44 +166,44 @@ addExpression(parseTreeNode ** t, STTNode ** sT, char * buffer, int * lable_coun
         }
 
         // NUM
-        if ((**t).children[0]->children[1]->data.name == NUM) {
-            sprintf(temp, "\tmov ebx, %s\n", (**t).children[0]->children[1]->data.string);
+        if ((**t).children[1]->children[0]->data.name == NUM) {
+            sprintf(temp, "\tmov ebx, %s\n", (**t).children[1]->children[0]->data.string);
             strcat(buffer, temp);
             // ID
         } else {
-            if ((**t).children[0]->children[1]->data.name == ID) {
-                scopeId = getEntryFromSTT((**t).children[0]->children[1]->data.string, data, (**t).scopeId, sT);
-                sprintf(temp, "\tmov ebx [%s_%d]\n", (**t).children[0]->children[1]->data.string, scopeId);
+            if ((**t).children[1]->children[0] != NULL && (**t).children[1]->children[0]->data.name == ID) {
+                scopeId = getEntryFromSTT((**t).children[1]->children[0]->data.string, data, (**t).scopeId, sT);
+                sprintf(temp, "\tmov ebx [%s_%d]\n", (**t).children[1]->children[0]->data.string, scopeId);
                 strcat(buffer, temp);
             } else {
-                strcat(buffer, "mov ebx, 0");
+                strcat(buffer, "\tmov ebx, 0\n");
             }
-            scopeId = getEntryFromSTT((**t).children[0]->children[1]->data.string, data, (**t).scopeId, sT);
-            sprintf(temp, "\tmov ebx [%s_%d + 4 * ebx]\n", (**t).children[0]->children[1]->data.string, scopeId);
+            scopeId = getEntryFromSTT((**t).children[1]->children[0]->data.string, data, (**t).scopeId, sT);
+            sprintf(temp, "\tmov ebx [%s_%d + 4 * ebx]\n", (**t).children[1]->children[0]->data.string, scopeId);
             strcat(buffer, temp);
         }
 
         if ((**t).data.name == EQ) {
-            sprintf(buffer, "je .true_%d", *lable_count);
+            sprintf(buffer, "\tje .true_%d\n", *lable_count);
         } else if ((**t).data.name == NE) {
-            sprintf(buffer, "jne .true_%d", *lable_count);
+            sprintf(buffer, "\tjne .true_%d\n", *lable_count);
         } else if ((**t).data.name == GE) {
-            sprintf(buffer, "jge .true_%d", *lable_count);
+            sprintf(buffer, "\tjge .true_%d\n", *lable_count);
         } else if ((**t).data.name == GT) {
-            sprintf(buffer, "jg .true_%d", *lable_count);
+            sprintf(buffer, "\tjg .true_%d\n", *lable_count);
         }  else if ((**t).data.name == LE) {
-            sprintf(buffer, "jle .true_%d", *lable_count);
+            sprintf(buffer, "\tjle .true_%d\n", *lable_count);
         } else {
-            sprintf(buffer, "jl .true_%d", *lable_count);
+            sprintf(buffer, "\tjl .true_%d\n", *lable_count);
         }
         strcat(buffer, temp);
-        sprintf(buffer, "jmp .end_%d", *lable_count);
+        sprintf(buffer, "\tjmp .end_%d\n", *lable_count);
         strcat(buffer, temp);
-        strcat(buffer, "push 0");
-        sprintf(buffer, ".true_%d:", *lable_count);
+        strcat(buffer, "\tpush 0\n");
+        sprintf(buffer, "\t.true_%d:\n", *lable_count);
         strcat(buffer, temp);
-        strcat(buffer, "push 1");
-        sprintf(buffer, ".end_%d:", *lable_count);
+        strcat(buffer, "\tpush 1\n");
+        sprintf(buffer, "\t.end_%d:\n", *lable_count);
         strcat(buffer, temp);
         (*lable_count)++;
     }
