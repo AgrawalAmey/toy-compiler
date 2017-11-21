@@ -15,7 +15,6 @@ end
 takes input[a:integer, b:integer, c:integer];
 returns [res_1:boolean, res_2_a:integer, res_2__b:real];
 start
-	declare b:boolean;
 	res_2_a:= -(a*b-c/5);
 	res_2__b:= ((res_2_a + a)*12+22.34E-2)/13;
 	b :=((a <=  b) AND c >= a)OR (a<0);

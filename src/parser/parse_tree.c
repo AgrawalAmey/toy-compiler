@@ -140,3 +140,16 @@ printParseTreeInorder(parseTreeNode ** tree)
         }
     }
 }
+
+void
+countNodes(parseTreeNode ** tree, int * num)
+{
+    if (*tree == NULL) {
+        return;
+    }
+    (*num)++;
+    countNodes(&((**tree).right), num);
+    for (int i = 0; i < 20; i++) {
+        countNodes(&((**tree).children[i]), num);
+    }
+}

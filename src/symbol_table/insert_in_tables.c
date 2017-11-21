@@ -19,7 +19,7 @@ insertEntryInSTT(char * key, tableEntry data, int scopeId, STTNode ** root)
         result = insertInHashtable((**root).table, key, data, 0);
         // Clash occured while inserting
         if (result == -1) {
-            printf("Error: %s has clasing declarations.\n", key);
+            printf("Error7: %s has clasing declarations.\n", key);
             return -1;
         }
         return 1;
@@ -43,7 +43,7 @@ insertEntryInFT(char * key, tableEntry data, hashTable * fT)
     result = insertInHashtable(fT, key, data, 1);
 
     if (result == -1) {
-        printf("Error: %s has clasing declarations.\n", key);
+        printf("Error7: %s has clasing declarations.\n", key);
         return -1;
     }
 

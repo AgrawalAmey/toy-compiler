@@ -36,6 +36,7 @@ addExpression(parseTreeNode ** t, STTNode ** sT, char * buffer, int * lable_coun
       (**t).data.name == AND || (**t).data.name == OR)
     {
         // NUM
+
         if ((**t).children[0]->children[0]->data.name == NUM) {
             sprintf(temp, "\tmov eax, %s\n", (**t).children[0]->children[0]->data.string);
             strcat(buffer, temp);

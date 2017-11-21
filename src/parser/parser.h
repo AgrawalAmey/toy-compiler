@@ -39,5 +39,8 @@ void createParseTable(char * grammerFile, parse_table pt);
 // Makes parse tree
 int createParseTree(parse_table pt, parseTree t, Token *input);
 
+void
+countNodes(parseTreeNode ** tree, int * num);
+
 
 #endif // PARSER

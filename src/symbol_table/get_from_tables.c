@@ -41,7 +41,7 @@ getEntryFromSTT(char * key, tableEntry * data, int scopeId, STTNode ** root)
     if (result == -1) {
         return -1;
     } else if (result == -1) {
-        printf("Error: %s is undefined.\n", key);
+        printf("Error6: %s is undefined.\n", key);
         return -2;
     } else {
         return (**root).scopeId;
@@ -57,7 +57,7 @@ getEntryFromFT(char * key, tableEntry * data, hashTable * fT)
     result = findInHashtable(fT, key, data);
 
     if (result == -1) {
-        printf("Error: %s is not defined.\n", key);
+        printf("Error6: %s is not defined.\n", key);
         return -1;
     }
 
